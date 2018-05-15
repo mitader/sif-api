@@ -24,7 +24,7 @@ public class AccessProfileResource {
 
 	@GetMapping
 	public List<AccessProfileEntity> findAll() {
-		return accessProfileRepository.findByStatus(EntityState.active);
+		return accessProfileRepository.findByStatus(EntityState.ACTIVE);
 	}
 
 }

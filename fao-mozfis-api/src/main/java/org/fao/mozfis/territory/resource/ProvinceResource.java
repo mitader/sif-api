@@ -24,7 +24,7 @@ public class ProvinceResource {
 
 	@GetMapping
 	public List<ProvinceEntity> findAll() {
-		return provinceRepository.findByStatus(EntityState.active);
+		return provinceRepository.findByStatus(EntityState.ACTIVE);
 	}
 
 }

@@ -2,8 +2,8 @@ package org.fao.mozfis.core.entity;
 
 public enum EntityState {
 
-	inactive, // 0
+	INACTIVE, // 0
 
-	active // 1
+	ACTIVE // 1
 
 }

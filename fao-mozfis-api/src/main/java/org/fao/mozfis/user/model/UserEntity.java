@@ -31,7 +31,7 @@ public class UserEntity extends BaseEntity {
 	//TODO: Embed user details
 	@Email
 	private String email;
-	private String celular;
+	private String phone;
 
 	@NotNull
 	@Column(name = "province_id", nullable = false, insertable = false, updatable = false)
@@ -73,12 +73,12 @@ public class UserEntity extends BaseEntity {
 		this.email = email;
 	}
 
-	public String getCelular() {
-		return celular;
+	public String getPhone() {
+		return phone;
 	}
 
-	public void setCelular(String celular) {
-		this.celular = celular;
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public Long getProvinceId() {

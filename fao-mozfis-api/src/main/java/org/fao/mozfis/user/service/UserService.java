@@ -28,7 +28,7 @@ public class UserService {
 
 	public UserEntity createUser(UserEntity user) {
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.setStatus(EntityState.active);
+		user.setStatus(EntityState.ACTIVE);
 		return userRepository.save(user);
 	}
 
@@ -49,6 +49,6 @@ public class UserService {
 	}
 
 	public List<UserEntity> findUsers() {
-		return userRepository.findByStatus(EntityState.active);
+		return userRepository.findByStatus(EntityState.ACTIVE);
 	}
 }
