@@ -57,6 +57,7 @@ public class MozFisExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler({ EmptyResultDataAccessException.class })
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public void handleEmptyResultDataAccessException() {
+		// nothing to do.
 	}
 
 	@ExceptionHandler({ DataIntegrityViolationException.class })

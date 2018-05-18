@@ -1,15 +1,16 @@
 package org.fao.mozfis.user.resource;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fao.mozfis.core.event.CreateResourceEvent;
 import org.fao.mozfis.user.model.UserEntity;
+import org.fao.mozfis.user.model.filter.UserFilter;
 import org.fao.mozfis.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,8 +35,8 @@ public class UserResource {
 	private ApplicationEventPublisher publisher;
 
 	@GetMapping
-	public List<UserEntity> findAll() {
-		return userService.findUsers();
+	public Page<UserEntity> findUsers(UserFilter filter, Pageable pagination) {
+		return userService.findUsers(filter, pagination);
 	}
 
 	@PostMapping

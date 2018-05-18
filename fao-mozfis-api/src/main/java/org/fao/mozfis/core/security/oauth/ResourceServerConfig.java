@@ -27,14 +27,21 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
 	@Autowired
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().withUser("admin").password("password").roles("ADMIN");
+		//TODO: read from jdbc datasource
+		auth.inMemoryAuthentication()
+			.withUser("admin")
+			.password("password")
+			.roles("ADMIN");
 	}
 
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/provinces").permitAll().antMatchers("/oauth/token").permitAll()
-				.anyRequest().authenticated().and().sessionManagement()
-				.sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().csrf().disable();
+		http.authorizeRequests()
+			.antMatchers("/oauth/token").permitAll()
+			.anyRequest().authenticated()
+			.and().sessionManagement()
+			.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			.and().csrf().disable();
 	}
 
 	@Override
