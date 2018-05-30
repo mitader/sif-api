@@ -2,25 +2,33 @@ package org.fao.mozfis.request.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 
 /**
- * The domain entity for a generic Stage of the Forest Exploration Request
+ * The domain entity for the Type of the Product that will be exploited
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "stage")
-public class StageEntity extends BaseEntity {
+@Table(name = "product_subtype")
+public class ProductSubTypeEntity extends BaseEntity {
 
 	@NotNull
 	private String name;
 
-	@Column(name = "final_stage")
-	private boolean finalStage;
+	@JoinColumn(name = "product_type_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private ProductTypeEntity productType;
+
+	@NotNull
+	@Column(name = "product_type_id", nullable = false, insertable = false, updatable = false)
+	private Long productTypeId;
 
 	public String getName() {
 		return name;
@@ -30,12 +38,20 @@ public class StageEntity extends BaseEntity {
 		this.name = name;
 	}
 
-	public boolean isFinalStage() {
-		return finalStage;
+	public ProductTypeEntity getProductType() {
+		return productType;
 	}
 
-	public void setFinalStage(boolean finalStage) {
-		this.finalStage = finalStage;
+	public void setProductType(ProductTypeEntity productType) {
+		this.productType = productType;
+	}
+
+	public Long getProductTypeId() {
+		return productTypeId;
+	}
+
+	public void setProductTypeId(Long productTypeId) {
+		this.productTypeId = productTypeId;
 	}
 
 	@Override
@@ -54,7 +70,7 @@ public class StageEntity extends BaseEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StageEntity other = (StageEntity) obj;
+		ProductSubTypeEntity other = (ProductSubTypeEntity) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

@@ -16,11 +16,12 @@ import org.fao.mozfis.core.entity.BaseEntity;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "contract", uniqueConstraints = { @UniqueConstraint(columnNames = "number") })
+@Table(name = "contract", uniqueConstraints = { @UniqueConstraint(columnNames = "contract_number") })
 public class ContractEntity extends BaseEntity {
 
 	@NotNull
-	private String number;
+	@Column(name = "contract_number")
+	private String contractNumber;
 
 	@Column(name = "signature_date")
 	private LocalDateTime signatureDate;
@@ -31,12 +32,12 @@ public class ContractEntity extends BaseEntity {
 	@Column(name = "revision_date")
 	private LocalDateTime revisionDate;
 
-	public String getNumber() {
-		return number;
+	public String getContractNumber() {
+		return contractNumber;
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public void setContractNumber(String contractNumber) {
+		this.contractNumber = contractNumber;
 	}
 
 	public LocalDateTime getSignatureDate() {
@@ -67,7 +68,7 @@ public class ContractEntity extends BaseEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
+		result = prime * result + ((contractNumber == null) ? 0 : contractNumber.hashCode());
 		return result;
 	}
 
@@ -80,10 +81,10 @@ public class ContractEntity extends BaseEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		ContractEntity other = (ContractEntity) obj;
-		if (number == null) {
-			if (other.number != null)
+		if (contractNumber == null) {
+			if (other.contractNumber != null)
 				return false;
-		} else if (!number.equals(other.number))
+		} else if (!contractNumber.equals(other.contractNumber))
 			return false;
 		return true;
 	}

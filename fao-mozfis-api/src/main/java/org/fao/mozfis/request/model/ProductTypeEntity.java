@@ -1,6 +1,5 @@
 package org.fao.mozfis.request.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -8,19 +7,16 @@ import javax.validation.constraints.NotNull;
 import org.fao.mozfis.core.entity.BaseEntity;
 
 /**
- * The domain entity for a generic Stage of the Forest Exploration Request
+ * The domain entity to Aggregate the Type of the Product that will be exploited
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "stage")
-public class StageEntity extends BaseEntity {
+@Table(name = "product_type")
+public class ProductTypeEntity extends BaseEntity {
 
 	@NotNull
 	private String name;
-
-	@Column(name = "final_stage")
-	private boolean finalStage;
 
 	public String getName() {
 		return name;
@@ -28,14 +24,6 @@ public class StageEntity extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isFinalStage() {
-		return finalStage;
-	}
-
-	public void setFinalStage(boolean finalStage) {
-		this.finalStage = finalStage;
 	}
 
 	@Override
@@ -54,7 +42,7 @@ public class StageEntity extends BaseEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StageEntity other = (StageEntity) obj;
+		ProductTypeEntity other = (ProductTypeEntity) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;

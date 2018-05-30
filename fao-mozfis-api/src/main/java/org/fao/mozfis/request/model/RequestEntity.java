@@ -10,12 +10,10 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 import org.fao.mozfis.operator.model.OperatorEntity;
-import org.fao.mozfis.request.util.ProductType;
 import org.fao.mozfis.request.util.Purpose;
 import org.fao.mozfis.request.util.Regime;
 import org.fao.mozfis.territory.model.LocalityEntity;
@@ -26,7 +24,7 @@ import org.fao.mozfis.territory.model.LocalityEntity;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "request", uniqueConstraints = { @UniqueConstraint(columnNames = "number") })
+@Table(name = "request")
 public class RequestEntity extends BaseEntity {
 
 	@JoinColumn(name = "operator_id")
@@ -65,7 +63,8 @@ public class RequestEntity extends BaseEntity {
 	@NotNull
 	private BigDecimal area;
 
-	private int duration;
+	@Column(name = "duration_year")
+	private BigDecimal durationInYears;
 
 	@NotNull
 	private int year;
@@ -76,8 +75,15 @@ public class RequestEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Purpose purpose;
 
-	@Enumerated(EnumType.STRING)
-	private ProductType productType;
+	@JoinColumn(name = "product_type_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private ProductSubTypeEntity productType;
+
+	// TODO: this is temporarely nullable until all requests be normalized. should
+	// no be null
+	@NotNull
+	@Column(name = "product_type_id", nullable = true, insertable = false, updatable = false)
+	private Long productTypeId;
 
 	// TODO: add geo coordinates
 
@@ -153,12 +159,12 @@ public class RequestEntity extends BaseEntity {
 		this.area = area;
 	}
 
-	public int getDuration() {
-		return duration;
+	public BigDecimal getDurationInYears() {
+		return durationInYears;
 	}
 
-	public void setDuration(int duration) {
-		this.duration = duration;
+	public void setDurationInYears(BigDecimal durationInYears) {
+		this.durationInYears = durationInYears;
 	}
 
 	public int getYear() {
@@ -185,12 +191,20 @@ public class RequestEntity extends BaseEntity {
 		this.purpose = purpose;
 	}
 
-	public ProductType getProductType() {
+	public ProductSubTypeEntity getProductType() {
 		return productType;
 	}
 
-	public void setProductType(ProductType productType) {
+	public void setProductType(ProductSubTypeEntity productType) {
 		this.productType = productType;
+	}
+
+	public Long getProductTypeId() {
+		return productTypeId;
+	}
+
+	public void setProductTypeId(Long productTypeId) {
+		this.productTypeId = productTypeId;
 	}
 
 	@Override

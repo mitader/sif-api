@@ -8,7 +8,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
@@ -19,7 +18,7 @@ import org.fao.mozfis.core.entity.BaseEntity;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "request_stage", uniqueConstraints = { @UniqueConstraint(columnNames = "number") })
+@Table(name = "request_stage")
 public class RequestStageEntity extends BaseEntity {
 
 	@NotNull
@@ -31,7 +30,7 @@ public class RequestStageEntity extends BaseEntity {
 	@JoinColumn(name = "stage_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private StageEntity stage;
-	
+
 	@NotNull
 	@Column(name = "stage_id", nullable = false, insertable = false, updatable = false)
 	private Long stageId;
@@ -39,13 +38,13 @@ public class RequestStageEntity extends BaseEntity {
 	@JoinColumn(name = "request_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RequestEntity request;
-	
+
 	@NotNull
 	@Column(name = "request_id", nullable = false, insertable = false, updatable = false)
 	private Long requestId;
 
 	// TODO: add attachment field
-	
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

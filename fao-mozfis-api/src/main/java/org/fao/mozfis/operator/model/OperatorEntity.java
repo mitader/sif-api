@@ -13,7 +13,7 @@ import org.fao.mozfis.core.entity.BaseEntity;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "operator", uniqueConstraints = { @UniqueConstraint(columnNames = "nuit") })
+@Table(name = "operators", uniqueConstraints = { @UniqueConstraint(columnNames = "nuit") })
 public class OperatorEntity extends BaseEntity {
 
 	@NotNull
