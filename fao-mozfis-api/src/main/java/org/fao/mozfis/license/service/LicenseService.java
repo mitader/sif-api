@@ -1,6 +1,9 @@
 package org.fao.mozfis.license.service;
 
+import java.util.Optional;
+
 import org.fao.mozfis.license.model.LicenseEntity;
+import org.fao.mozfis.operator.model.OperatorEntity;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,7 +26,9 @@ public class LicenseService {
 	 */
 	@Deprecated
 	public LicenseEntity loadExistingLicense(LicenseEntity license) {
-		// TODO: implement me!
+		// TODO implement me! start from here.
+		Optional<OperatorEntity> operator = Optional.of(license.getOperator());
+
 		return null;
 	}
 
