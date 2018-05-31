@@ -27,7 +27,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 	@Override
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-		//TODO: read from jdbc datasource
+		//TODO: read from jdbc datasource instead
 		clients
 			.inMemory()
 			.withClient("mitader-fis-web")

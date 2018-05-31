@@ -64,7 +64,7 @@ public abstract class AbstractRepository<T extends BaseEntity, F extends DomainE
 	protected long total(F filter) {
 		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
 		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		// TODO: use T.class to generalize
+		// TODO: use T.class to generalize instead of concrete class
 		Root<UserEntity> from = criteria.from(UserEntity.class);
 
 		criteria.where(restrictions(from, filter, builder)).select(builder.count(from));

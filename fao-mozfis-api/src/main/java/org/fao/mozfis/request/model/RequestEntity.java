@@ -79,9 +79,8 @@ public class RequestEntity extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ProductSubTypeEntity productType;
 
-	// TODO: this is temporarely nullable until all requests be normalized. should
-	// no be null
-	@NotNull
+	// TODO: this is temporarely nullable until all existing requests be
+	// regularized.
 	@Column(name = "product_type_id", nullable = true, insertable = false, updatable = false)
 	private Long productTypeId;
 

@@ -28,7 +28,6 @@ public class UserEntity extends BaseEntity {
 	@NotNull
 	private String fullname;
 
-	//TODO: Embed user details
 	@Email
 	private String email;
 	private String phone;
