@@ -1,4 +1,4 @@
-package org.fao.mozfis.user.model.filter;
+package org.fao.mozfis.user.util;
 
 import org.fao.mozfis.core.filter.DomainEntityFilter;
 

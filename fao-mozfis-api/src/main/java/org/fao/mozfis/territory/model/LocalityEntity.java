@@ -30,6 +30,13 @@ public class LocalityEntity extends BaseEntity {
 	@Column(name = "administrative_post_id", nullable = false, insertable = false, updatable = false)
 	private Long administrativePostId;
 
+	public LocalityEntity() {
+	}
+
+	public LocalityEntity(Long id) {
+		setId(id);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -53,7 +60,7 @@ public class LocalityEntity extends BaseEntity {
 	public void setAdministrativePostId(Long administrativePostId) {
 		this.administrativePostId = administrativePostId;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return super.hashCode();

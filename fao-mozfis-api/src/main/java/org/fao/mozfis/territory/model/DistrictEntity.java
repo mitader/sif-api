@@ -30,6 +30,13 @@ public class DistrictEntity extends BaseEntity {
 	@Column(name = "province_id", nullable = false, insertable = false, updatable = false)
 	private Long provinceId;
 
+	public DistrictEntity() {
+	}
+
+	public DistrictEntity(Long id) {
+		setId(id);
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -53,7 +60,7 @@ public class DistrictEntity extends BaseEntity {
 	public void setProvinceId(Long provinceId) {
 		this.provinceId = provinceId;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return super.hashCode();

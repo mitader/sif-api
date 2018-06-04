@@ -1,7 +1,7 @@
 package org.fao.mozfis.user.repository;
 
 import org.fao.mozfis.user.model.UserEntity;
-import org.fao.mozfis.user.model.filter.UserFilter;
+import org.fao.mozfis.user.util.UserFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

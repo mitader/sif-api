@@ -10,7 +10,9 @@ import javax.persistence.criteria.Root;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 import org.fao.mozfis.core.filter.DomainEntityFilter;
-import org.fao.mozfis.user.model.UserEntity;
+import org.springframework.core.GenericTypeResolver;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 /**
@@ -23,36 +25,26 @@ public abstract class AbstractRepository<T extends BaseEntity, F extends DomainE
 	@PersistenceContext
 	private EntityManager entityManager;
 
-	protected EntityManager getEntityManager() {
-		return entityManager;
+	@SuppressWarnings("unchecked")
+	protected Class<T> getDomainEntityClass() {
+		return (Class<T>) GenericTypeResolver.resolveTypeArguments(getClass(), AbstractRepository.class)[0];
 	}
 
 	/**
 	 * Create restrictions based on specified filters
 	 * 
-	 * @param root
-	 *            the root of the criteria
+	 * @param from
+	 *            the root entity
+	 * 
+	 * @param builder
+	 *            the criteria builder
+	 * 
 	 * @param filter
-	 *            the user filter
-	 * @param cb
-	 *            the criteria builder from the entity manager
+	 *            the domain entity filter
+	 * 
 	 * @return
 	 */
-	protected abstract Predicate[] restrictions(Root<UserEntity> root, F filter, CriteriaBuilder cb);
-
-	/**
-	 * Add pagination to a query based on suplied page details
-	 * 
-	 * @param pagination
-	 *            the pageable to be added
-	 * @param query
-	 *            the query
-	 */
-	protected void addPagination(Pageable pagination, TypedQuery<T> query) {
-		int startPosition = pagination.getPageNumber() * pagination.getPageSize();
-		query.setMaxResults(pagination.getPageSize());
-		query.setFirstResult(startPosition);
-	}
+	protected abstract Predicate[] restrictions(Root<T> from, CriteriaBuilder builder, F filter);
 
 	/**
 	 * Count total records from the entity T base on the specified filter
@@ -62,14 +54,46 @@ public abstract class AbstractRepository<T extends BaseEntity, F extends DomainE
 	 * @return total records
 	 */
 	protected long total(F filter) {
-		CriteriaBuilder builder = getEntityManager().getCriteriaBuilder();
-		CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-		// TODO: use T.class to generalize instead of concrete class
-		Root<UserEntity> from = criteria.from(UserEntity.class);
+		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+		CriteriaQuery<Long> cq = cb.createQuery(Long.class);
+		Root<T> f = cq.from(getDomainEntityClass());
+		cq.where(restrictions(f, cb, filter)).select(cb.count(f));
+		return this.entityManager.createQuery(cq).getSingleResult();
+	}
 
-		criteria.where(restrictions(from, filter, builder)).select(builder.count(from));
+	/**
+	 * Paginate a query according specified filter and pagination details
+	 * 
+	 * @param filter
+	 *            the filter
+	 * @param paging
+	 *            the paging details
+	 * @return
+	 */
+	protected Page<T> pagingQuery(F filter, Pageable paging) {
+		CriteriaBuilder builder = this.entityManager.getCriteriaBuilder();
+		CriteriaQuery<T> criteria = builder.createQuery(getDomainEntityClass());
+		Root<T> from = criteria.from(getDomainEntityClass());
+		criteria.where(restrictions(from, builder, filter));
 
-		return getEntityManager().createQuery(criteria).getSingleResult();
+		TypedQuery<T> query = entityManager.createQuery(criteria);
+		this.paginate(paging, query);
+
+		return new PageImpl<>(query.getResultList(), paging, total(filter));
+	}
+
+	/**
+	 * Add pagination to a query based on suplied page details
+	 * 
+	 * @param pagination
+	 *            the pageable to be added
+	 * @param query
+	 *            the query
+	 */
+	private void paginate(Pageable pagination, TypedQuery<T> query) {
+		int startPosition = pagination.getPageNumber() * pagination.getPageSize();
+		query.setMaxResults(pagination.getPageSize());
+		query.setFirstResult(startPosition);
 	}
 
 }

@@ -2,8 +2,8 @@ package org.fao.mozfis.user.service;
 
 import org.fao.mozfis.core.entity.EntityState;
 import org.fao.mozfis.user.model.UserEntity;
-import org.fao.mozfis.user.model.filter.UserFilter;
 import org.fao.mozfis.user.repository.UserRepository;
+import org.fao.mozfis.user.util.UserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

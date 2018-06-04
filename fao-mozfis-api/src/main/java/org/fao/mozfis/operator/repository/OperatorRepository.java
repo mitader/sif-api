@@ -10,5 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Transactional(readOnly = true)
-public interface OperatorRepository extends JpaRepository<OperatorEntity, Long> {
+public interface OperatorRepository extends JpaRepository<OperatorEntity, Long>, OperatorRepositoryQuery {
+
+	public OperatorEntity findByNuit(String nuit);
+
 }

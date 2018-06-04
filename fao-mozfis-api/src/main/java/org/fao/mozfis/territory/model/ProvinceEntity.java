@@ -21,6 +21,13 @@ public class ProvinceEntity extends BaseEntity {
 	@Size(min = 3, max = 20)
 	private String name;
 
+	public ProvinceEntity() {
+	}
+
+	public ProvinceEntity(Long id) {
+		setId(id);
+	}
+
 	public String getName() {
 		return name;
 	}

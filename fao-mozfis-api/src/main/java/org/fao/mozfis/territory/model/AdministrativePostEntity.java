@@ -30,6 +30,13 @@ public class AdministrativePostEntity extends BaseEntity {
 	@Column(name = "district_id", nullable = false, insertable = false, updatable = false)
 	private Long districtId;
 
+	public AdministrativePostEntity() {
+	}
+
+	public AdministrativePostEntity(Long id) {
+		setId(id);
+	}
+
 	public String getName() {
 		return name;
 	}
