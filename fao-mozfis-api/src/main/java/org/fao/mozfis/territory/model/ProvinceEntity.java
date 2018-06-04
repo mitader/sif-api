@@ -26,6 +26,7 @@ public class ProvinceEntity extends BaseEntity {
 
 	public ProvinceEntity(Long id) {
 		setId(id);
+		this.name = "";
 	}
 
 	public String getName() {

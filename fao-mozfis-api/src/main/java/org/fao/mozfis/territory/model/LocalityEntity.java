@@ -35,6 +35,8 @@ public class LocalityEntity extends BaseEntity {
 
 	public LocalityEntity(Long id) {
 		setId(id);
+		this.name = "";
+		this.administrativePostId = -1L;
 	}
 
 	public String getName() {

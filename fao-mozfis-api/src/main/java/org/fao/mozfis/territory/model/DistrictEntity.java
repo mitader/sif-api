@@ -35,6 +35,8 @@ public class DistrictEntity extends BaseEntity {
 
 	public DistrictEntity(Long id) {
 		setId(id);
+		this.name = "";
+		this.provinceId = -1L;
 	}
 
 	public String getName() {

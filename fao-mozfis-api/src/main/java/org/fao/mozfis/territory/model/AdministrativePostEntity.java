@@ -35,6 +35,8 @@ public class AdministrativePostEntity extends BaseEntity {
 
 	public AdministrativePostEntity(Long id) {
 		setId(id);
+		this.name = "";
+		this.districtId = -1L;
 	}
 
 	public String getName() {
