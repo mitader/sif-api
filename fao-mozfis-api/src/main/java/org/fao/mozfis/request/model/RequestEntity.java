@@ -10,13 +10,18 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
+import org.fao.mozfis.core.filter.Views;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.request.util.Purpose;
 import org.fao.mozfis.request.util.Regime;
 import org.fao.mozfis.territory.model.LocalityEntity;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * The domain entity for a Request of Forest Exploration
@@ -24,39 +29,47 @@ import org.fao.mozfis.territory.model.LocalityEntity;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "request")
+@Table(name = "request", uniqueConstraints = { @UniqueConstraint(columnNames = "process_number") })
 public class RequestEntity extends BaseEntity {
 
+	@NotNull
+	@Column(name = "process_number")
+	private String processNumber;
+
+	@NotNull
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "operator_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private OperatorEntity operator;
 
-	@NotNull
 	@Column(name = "operator_id", nullable = false, insertable = false, updatable = false)
 	private Long operatorId;
 
+	@NotNull
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "contract_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private ContractEntity contract;
 
-	@NotNull
 	@Column(name = "contract_id", nullable = true, insertable = false, updatable = false)
 	private Long contractId;
 
+	@JsonManagedReference
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "last_stage_id")
 	@ManyToOne(fetch = FetchType.LAZY)
-	private RequestStageEntity stage;
+	private RequestStageEntity lastStage;
 
 	// Actually stageId cannot be null, ensure not null through RequestService
-	@NotNull
 	@Column(name = "last_stage_id", nullable = true, insertable = false, updatable = false)
-	private Long stageId;
+	private Long lastStageId;
 
+	@NotNull
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "locality_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private LocalityEntity locality;
 
-	@NotNull
 	@Column(name = "locality_id", nullable = false, insertable = false, updatable = false)
 	private Long localityId;
 
@@ -75,9 +88,10 @@ public class RequestEntity extends BaseEntity {
 	@Enumerated(EnumType.STRING)
 	private Purpose purpose;
 
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "product_type_id")
 	@ManyToOne(fetch = FetchType.LAZY)
-	private ProductSubTypeEntity productType;
+	private ProductTypeEntity productType;
 
 	// TODO: this is temporarely nullable until all existing requests be
 	// regularized.
@@ -90,8 +104,17 @@ public class RequestEntity extends BaseEntity {
 		return operator;
 	}
 
+	public String getProcessNumber() {
+		return processNumber;
+	}
+
+	public void setProcessNumber(String processNumber) {
+		this.processNumber = processNumber;
+	}
+
 	public void setOperator(OperatorEntity operator) {
 		this.operator = operator;
+		setOperatorId(operator != null ? operator.getId() : null);
 	}
 
 	public Long getOperatorId() {
@@ -108,6 +131,7 @@ public class RequestEntity extends BaseEntity {
 
 	public void setContract(ContractEntity contract) {
 		this.contract = contract;
+		setContractId(contract != null ? contract.getId() : null);
 	}
 
 	public Long getContractId() {
@@ -118,20 +142,21 @@ public class RequestEntity extends BaseEntity {
 		this.contractId = contractId;
 	}
 
-	public RequestStageEntity getStage() {
-		return stage;
+	public RequestStageEntity getLastStage() {
+		return lastStage;
 	}
 
-	public void setStage(RequestStageEntity stage) {
-		this.stage = stage;
+	public void setLastStage(RequestStageEntity lastStage) {
+		this.lastStage = lastStage;
+		setLastStageId(lastStage != null ? lastStage.getId() : null);
 	}
 
-	public Long getStageId() {
-		return stageId;
+	public Long getLastStageId() {
+		return lastStageId;
 	}
 
-	public void setStageId(Long stageId) {
-		this.stageId = stageId;
+	public void setLastStageId(Long lastStageId) {
+		this.lastStageId = lastStageId;
 	}
 
 	public LocalityEntity getLocality() {
@@ -140,6 +165,7 @@ public class RequestEntity extends BaseEntity {
 
 	public void setLocality(LocalityEntity locality) {
 		this.locality = locality;
+		setLocalityId(locality != null ? locality.getId() : null);
 	}
 
 	public Long getLocalityId() {
@@ -190,12 +216,13 @@ public class RequestEntity extends BaseEntity {
 		this.purpose = purpose;
 	}
 
-	public ProductSubTypeEntity getProductType() {
+	public ProductTypeEntity getProductType() {
 		return productType;
 	}
 
-	public void setProductType(ProductSubTypeEntity productType) {
+	public void setProductType(ProductTypeEntity productType) {
 		this.productType = productType;
+		setProductTypeId(productType != null ? productType.getId() : null);
 	}
 
 	public Long getProductTypeId() {

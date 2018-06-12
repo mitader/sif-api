@@ -9,6 +9,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
+import org.fao.mozfis.core.filter.Views;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * The domain entity for a Locality
@@ -22,6 +25,7 @@ public class LocalityEntity extends BaseEntity {
 	@NotNull
 	private String name;
 
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "administrative_post_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private AdministrativePostEntity administrativePost;

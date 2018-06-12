@@ -1,4 +1,15 @@
 -------------------------------------------------------------------------------------------------------------------------
+-- Creating structure for ACCESS_PROFILE
+-------------------------------------------------------------------------------------------------------------------------
+create table access_profile(
+	id bigint(20) primary key auto_increment,
+	code varchar(20) not null,
+	name varchar(20) not null,
+	status integer(1) not null,
+	constraint uq_access_profile_code unique(code)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-------------------------------------------------------------------------------------------------------------------------
 -- Creating structure for USER_DATA
 -------------------------------------------------------------------------------------------------------------------------
 create table users(
@@ -19,9 +30,11 @@ create table users(
 -------------------------------------------------------------------------------------------------------------------------
 -- Inserting initial DATA
 -------------------------------------------------------------------------------------------------------------------------
+insert into access_profile (code, name, status) values ('00','Administrador', 1);
+insert into access_profile (code, name, status) values ('01','Gestor', 1);
 
 insert into users (username, password, fullname, email, phone, status, province_id, access_profile_id)
-values ('000000000','password','Nelson Magalh„es', 'nelson.magalhaes@fao.org','+258000000000', 1, 1, 1);
+values ('000000000','password','Nelson Magalh√£es', 'nelson.magalhaes@fao.org','+258000000000', 1, 1, 1);
 insert into users (username, password, fullname, email, phone, status, province_id, access_profile_id)
 values ('000000001','password','John Doe 1', 'john1.doe@fao.org','+258000000001', 1, 1, 2);
 insert into users (username, password, fullname, email, phone, status, province_id, access_profile_id)

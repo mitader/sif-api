@@ -71,4 +71,10 @@ public class MozFisExceptionHandler extends ResponseEntityExceptionHandler {
 		return super.handleExceptionInternal(ex, message, new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 	}
 
+	@ExceptionHandler({ IllegalArgumentException.class })
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public void handleIllegalArgumentException() {
+		// nothing to do.
+	}
+
 }

@@ -2,12 +2,20 @@ package org.fao.mozfis.user.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.fao.mozfis.core.entity.BaseEntity;
+import org.fao.mozfis.core.filter.Views;
+import org.fao.mozfis.territory.model.ProvinceEntity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * The domain entity for Users
@@ -22,6 +30,7 @@ public class UserEntity extends BaseEntity {
 	@Size(min = 8, max = 20)
 	private String username;
 
+	@JsonIgnore
 	@NotNull
 	private String password;
 
@@ -32,9 +41,19 @@ public class UserEntity extends BaseEntity {
 	private String email;
 	private String phone;
 
+	@JsonView(Views.Detail.class)
+	@JoinColumn(name = "province_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private ProvinceEntity province;
+
 	@NotNull
 	@Column(name = "province_id", nullable = false, insertable = false, updatable = false)
 	private Long provinceId;
+
+	@JsonView(Views.Detail.class)
+	@JoinColumn(name = "access_profile_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private ProvinceEntity accessProfile;
 
 	@NotNull
 	@Column(name = "access_profile_id", nullable = false, insertable = false, updatable = false)
@@ -94,6 +113,22 @@ public class UserEntity extends BaseEntity {
 
 	public void setAccessProfileId(Long accessProfileId) {
 		this.accessProfileId = accessProfileId;
+	}
+
+	public ProvinceEntity getProvince() {
+		return province;
+	}
+
+	public void setProvince(ProvinceEntity province) {
+		this.province = province;
+	}
+
+	public ProvinceEntity getAccessProfile() {
+		return accessProfile;
+	}
+
+	public void setAccessProfile(ProvinceEntity accessProfile) {
+		this.accessProfile = accessProfile;
 	}
 
 	@Override

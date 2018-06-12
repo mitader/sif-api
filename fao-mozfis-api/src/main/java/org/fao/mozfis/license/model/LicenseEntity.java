@@ -1,17 +1,25 @@
 package org.fao.mozfis.license.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
+import org.fao.mozfis.core.filter.Views;
+import org.fao.mozfis.forest.model.ProductEntity;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.request.model.RequestEntity;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * The domain entity for a License
@@ -19,39 +27,66 @@ import org.fao.mozfis.request.model.RequestEntity;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "license", uniqueConstraints = { @UniqueConstraint(columnNames = "number") })
+@Table(name = "license", uniqueConstraints = { @UniqueConstraint(columnNames = "license_number") })
 public class LicenseEntity extends BaseEntity {
 
 	@NotNull
-	private String number;
+	@Column(name = "license_number")
+	private String licenseNumber;
 
 	@NotNull
 	private int year;
 
 	private String description;
 
+	@NotNull
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "request_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RequestEntity request;
 
-	@NotNull
 	@Column(name = "request_id", nullable = false, insertable = false, updatable = false)
 	private Long requestId;
 
+	@NotNull
+	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "operator_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private OperatorEntity operator;
 
-	@NotNull
 	@Column(name = "operator_id", nullable = false, insertable = false, updatable = false)
 	private Long operatorId;
 
-	public String getNumber() {
-		return number;
+	@JsonView(Views.Detail.class)
+	@JsonManagedReference
+	@Transient
+	private List<ProductEntity> products;
+
+	public LicenseEntity() {
 	}
 
-	public void setNumber(String number) {
-		this.number = number;
+	public LicenseEntity(Long id) {
+		setId(id);
+		this.licenseNumber = "auto";
+		this.year = -1;
+		this.request = new RequestEntity();
+		this.operator = new OperatorEntity();
+	}
+
+	public List<ProductEntity> getProducts() {
+		return products;
+	}
+
+	public void setProducts(List<ProductEntity> products) {
+		this.products = products;
+	}
+
+	public String getLicenseNumber() {
+		return licenseNumber;
+	}
+
+	public void setLicenseNumber(String licenseNumber) {
+		this.licenseNumber = licenseNumber;
 	}
 
 	public int getYear() {
@@ -76,6 +111,7 @@ public class LicenseEntity extends BaseEntity {
 
 	public void setRequest(RequestEntity request) {
 		this.request = request;
+		setRequestId(request != null ? request.getId() : null);
 	}
 
 	public Long getRequestId() {
@@ -92,6 +128,7 @@ public class LicenseEntity extends BaseEntity {
 
 	public void setOperator(OperatorEntity operator) {
 		this.operator = operator;
+		setOperatorId(operator != null ? operator.getId() : null);
 	}
 
 	public Long getOperatorId() {
@@ -106,7 +143,7 @@ public class LicenseEntity extends BaseEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((number == null) ? 0 : number.hashCode());
+		result = prime * result + ((licenseNumber == null) ? 0 : licenseNumber.hashCode());
 		return result;
 	}
 
@@ -119,10 +156,10 @@ public class LicenseEntity extends BaseEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		LicenseEntity other = (LicenseEntity) obj;
-		if (number == null) {
-			if (other.number != null)
+		if (licenseNumber == null) {
+			if (other.licenseNumber != null)
 				return false;
-		} else if (!number.equals(other.number))
+		} else if (!licenseNumber.equals(other.licenseNumber))
 			return false;
 		return true;
 	}

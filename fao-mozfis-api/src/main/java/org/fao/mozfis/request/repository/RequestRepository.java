@@ -1,7 +1,11 @@
 package org.fao.mozfis.request.repository;
 
+import java.util.List;
+
 import org.fao.mozfis.request.model.RequestEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -10,5 +14,15 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Transactional(readOnly = true)
-public interface RequestRepository extends JpaRepository<RequestEntity, Long> {
+public interface RequestRepository extends JpaRepository<RequestEntity, Long>, RequestRepositoryQuery {
+
+	/**
+	 * Find all requests from givin operator
+	 * 
+	 * @param nuit
+	 *            the nuit's operator
+	 * @return the requests found
+	 */
+	@Query("select r from RequestEntity r inner join r.operator o where o.nuit = :nuit")
+	List<RequestEntity> findByOperatorNuit(@Param("nuit") String nuit);
 }

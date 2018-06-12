@@ -1,13 +1,20 @@
 package org.fao.mozfis.request.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
+import org.fao.mozfis.core.filter.Views;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
- * The domain entity to Aggregate the Type of the Product that will be exploited
+ * The domain entity for the Type of the Product that will be exploited
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
@@ -18,12 +25,37 @@ public class ProductTypeEntity extends BaseEntity {
 	@NotNull
 	private String name;
 
+	@NotNull
+	@JsonView(Views.Detail.class)
+	@JoinColumn(name = "product_category_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private ProductCategoryEntity productCategory;
+
+	@Column(name = "product_category_id", nullable = false, insertable = false, updatable = false)
+	private Long productCategoryId;
+
 	public String getName() {
 		return name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public ProductCategoryEntity getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(ProductCategoryEntity productCategory) {
+		this.productCategory = productCategory;
+	}
+
+	public Long getProductCategoryId() {
+		return productCategoryId;
+	}
+
+	public void setProductCategoryId(Long productCategoryId) {
+		this.productCategoryId = productCategoryId;
 	}
 
 	@Override

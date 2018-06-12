@@ -1,26 +1,45 @@
 package org.fao.mozfis.forest.service;
 
-import org.fao.mozfis.operator.model.OperatorEntity;
-import org.fao.mozfis.operator.repository.OperatorRepository;
-import org.fao.mozfis.operator.util.OperatorFilter;
+import java.util.List;
+
+import org.fao.mozfis.core.entity.EntityState;
+import org.fao.mozfis.core.service.TransactionalReadOnly;
+import org.fao.mozfis.forest.model.ProductEntity;
+import org.fao.mozfis.forest.repository.ProductRepository;
+import org.fao.mozfis.license.model.LicenseEntity;
+import org.fao.mozfis.request.model.ProductCategoryEntity;
+import org.fao.mozfis.request.model.ProductTypeEntity;
+import org.fao.mozfis.request.repository.ProductCategoryRepository;
+import org.fao.mozfis.request.repository.ProductTypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 /**
  * Production Service implementation for Forest operations
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
-@Service
+@TransactionalReadOnly
 public class ForestService {
 
 	@Autowired
-	private OperatorRepository operatorRepository;
+	private ProductCategoryRepository productCategoryRepository;
 
-	public Page<OperatorEntity> findRegimes(OperatorFilter filter, Pageable pagination) {
-		return operatorRepository.findOperators(filter, pagination);
+	@Autowired
+	private ProductTypeRepository productTypeRepository;
+
+	@Autowired
+	private ProductRepository productRepository;
+
+	public List<ProductCategoryEntity> findProductCategories() {
+		return productCategoryRepository.findByStatus(EntityState.ACTIVE);
+	}
+
+	public List<ProductTypeEntity> findProductTypes(ProductCategoryEntity category) {
+		return productTypeRepository.findByProductCategoryAndStatus(category, EntityState.ACTIVE);
+	}
+
+	public List<ProductEntity> findProducts(LicenseEntity license) {
+		return productRepository.findByLicenseAndStatus(license, EntityState.ACTIVE);
 	}
 
 }

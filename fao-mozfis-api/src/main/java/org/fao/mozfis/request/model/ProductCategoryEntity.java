@@ -1,34 +1,29 @@
 package org.fao.mozfis.request.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 
 /**
- * The domain entity for a generic Stage of the Forest Exploration Request
+ * The domain entity to Aggregate the Type of the Product that will be exploited
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
 @Entity
-@Table(name = "stage")
-public class StageEntity extends BaseEntity {
+@Table(name = "product_category")
+public class ProductCategoryEntity extends BaseEntity {
 
-	public static final Long APPROVED = 16L;
+	@NotBlank
+	private String name;
 
-	@NotNull
-	private String name = "auto";
-
-	@Column(name = "final_stage")
-	private boolean finalStage;
-
-	public StageEntity() {
+	public ProductCategoryEntity() {
 	}
 
-	public StageEntity(Long id) {
+	public ProductCategoryEntity(Long id) {
 		setId(id);
+		this.name = "auto";
 	}
 
 	public String getName() {
@@ -37,14 +32,6 @@ public class StageEntity extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public boolean isFinalStage() {
-		return finalStage;
-	}
-
-	public void setFinalStage(boolean finalStage) {
-		this.finalStage = finalStage;
 	}
 
 	@Override
@@ -63,7 +50,7 @@ public class StageEntity extends BaseEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StageEntity other = (StageEntity) obj;
+		ProductCategoryEntity other = (ProductCategoryEntity) obj;
 		if (name == null) {
 			if (other.name != null)
 				return false;
