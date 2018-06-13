@@ -1,11 +1,19 @@
 package org.fao.mozfis.operator.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
+import org.fao.mozfis.core.filter.Views;
+import org.fao.mozfis.territory.model.LocalityEntity;
+
+import com.fasterxml.jackson.annotation.JsonView;
 
 /**
  * The domain entity for an Operator
@@ -27,6 +35,17 @@ public class OperatorEntity extends BaseEntity {
 	private String email;
 
 	private String phone;
+
+	private String comments;
+
+	@NotNull
+	@JsonView(Views.Detail.class)
+	@JoinColumn(name = "locality_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	private LocalityEntity locality;
+
+	@Column(name = "locality_id", nullable = false, insertable = false, updatable = false)
+	private Long localityId;
 
 	public String getNuit() {
 		return nuit;
@@ -66,6 +85,31 @@ public class OperatorEntity extends BaseEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getComments() {
+		return comments;
+	}
+
+	public void setComments(String comments) {
+		this.comments = comments;
+	}
+
+	public LocalityEntity getLocality() {
+		return locality;
+	}
+
+	public void setLocality(LocalityEntity locality) {
+		this.locality = locality;
+		setLocalityId(locality != null ? locality.getId() : null);
+	}
+
+	public Long getLocalityId() {
+		return localityId;
+	}
+
+	public void setLocalityId(Long localityId) {
+		this.localityId = localityId;
 	}
 
 	@Override

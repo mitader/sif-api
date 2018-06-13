@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.fao.mozfis.core.event.CreateResourceEvent;
+import org.fao.mozfis.core.filter.Views;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.operator.service.OperatorService;
 import org.fao.mozfis.operator.util.OperatorFilter;
@@ -20,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 /**
  * API to expose REST resources for Operators
  * 
@@ -35,17 +38,20 @@ public class OperatorResource {
 	@Autowired
 	private ApplicationEventPublisher publisher;
 
+	@JsonView(Views.Summary.class)
 	@GetMapping
 	public Page<OperatorEntity> findOperators(OperatorFilter filter, Pageable pagination) {
 		return operatorService.findOperators(filter, pagination);
 	}
 
+	@JsonView(Views.Summary.class)
 	@GetMapping("/{nuit}")
 	public ResponseEntity<OperatorEntity> findOperator(@Valid @PathVariable String nuit) {
 		OperatorEntity operator = operatorService.findOperator(nuit);
 		return operator != null ? ResponseEntity.ok(operator) : ResponseEntity.notFound().build();
 	}
 
+	@JsonView(Views.Summary.class)
 	@PostMapping
 	public ResponseEntity<OperatorEntity> save(@Valid @RequestBody OperatorEntity operator,
 			HttpServletResponse response) {
