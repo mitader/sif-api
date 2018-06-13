@@ -6,16 +6,13 @@ import org.fao.mozfis.license.model.LicenseEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Represent CRUD operations on a repository for License domain entity
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
-@Transactional(readOnly = true)
 public interface LicenseRepository extends JpaRepository<LicenseEntity, Long>, LicenseRepositoryQuery {
-	
 
 	/**
 	 * Find all requests from givin operator

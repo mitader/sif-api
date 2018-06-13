@@ -7,11 +7,11 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.fao.mozfis.core.repository.AbstractRepository;
 import org.fao.mozfis.license.model.LicenseEntity;
 import org.fao.mozfis.license.model.LicenseEntity_;
 import org.fao.mozfis.license.util.LicenseFilter;
 import org.fao.mozfis.request.util.Regime;
-import org.fao.mozfis.user.repository.AbstractRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;

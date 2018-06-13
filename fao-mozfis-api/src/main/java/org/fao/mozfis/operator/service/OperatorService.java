@@ -3,7 +3,8 @@ package org.fao.mozfis.operator.service;
 import javax.validation.Valid;
 
 import org.fao.mozfis.core.entity.EntityState;
-import org.fao.mozfis.core.service.TransactionalReadOnly;
+import org.fao.mozfis.core.service.TransactionalModifyOperation;
+import org.fao.mozfis.core.service.TransactionalReadOnlyService;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.operator.repository.OperatorRepository;
 import org.fao.mozfis.operator.util.OperatorFilter;
@@ -18,7 +19,7 @@ import org.springframework.data.domain.Pageable;
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
-@TransactionalReadOnly
+@TransactionalReadOnlyService
 public class OperatorService {
 
 	@Autowired
@@ -34,6 +35,7 @@ public class OperatorService {
 				() -> new EmptyResultDataAccessException(String.format("Operador com nuit=%s nao existe", nuit), 1));
 	}
 
+	@TransactionalModifyOperation
 	public OperatorEntity createOperator(@Valid OperatorEntity operator) {
 		operator.setLocality(new LocalityEntity(operator.getLocalityId()));
 		operator.setStatus(EntityState.ACTIVE);

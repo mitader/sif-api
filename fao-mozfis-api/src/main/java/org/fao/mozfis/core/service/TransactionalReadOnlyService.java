@@ -6,8 +6,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import javax.persistence.EntityNotFoundException;
 import javax.persistence.NoResultException;
-import javax.validation.ConstraintViolationException;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -22,8 +22,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, rollbackFor = { NoResultException.class,
-		ConstraintViolationException.class })
-public @interface TransactionalReadOnly {
+@Transactional(readOnly = true, propagation = Propagation.SUPPORTS, noRollbackFor = { NoResultException.class,
+		EntityNotFoundException.class })
+public @interface TransactionalReadOnlyService {
 	String value() default "";
 }

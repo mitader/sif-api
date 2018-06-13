@@ -5,7 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.fao.mozfis.core.entity.EntityState;
-import org.fao.mozfis.core.service.TransactionalReadOnly;
+import org.fao.mozfis.core.service.TransactionalModifyOperation;
+import org.fao.mozfis.core.service.TransactionalReadOnlyService;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.request.model.ContractEntity;
 import org.fao.mozfis.request.model.ProductTypeEntity;
@@ -18,18 +19,15 @@ import org.fao.mozfis.request.repository.RequestStageRepository;
 import org.fao.mozfis.request.util.RequestFilter;
 import org.fao.mozfis.territory.model.LocalityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service implementation for Resquest operations
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
-@TransactionalReadOnly
+@TransactionalReadOnlyService
 public class RequestService {
 
 	@Autowired
@@ -49,7 +47,7 @@ public class RequestService {
 		return requestRepository.findByOperatorNuit(nuit);
 	}
 
-	@Transactional(propagation = Propagation.SUPPORTS, rollbackFor = { DataIntegrityViolationException.class })
+	@TransactionalModifyOperation
 	public RequestEntity createExistingRequest(@Valid RequestEntity request) {
 
 		// create contract

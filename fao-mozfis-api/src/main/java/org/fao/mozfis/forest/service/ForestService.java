@@ -3,7 +3,7 @@ package org.fao.mozfis.forest.service;
 import java.util.List;
 
 import org.fao.mozfis.core.entity.EntityState;
-import org.fao.mozfis.core.service.TransactionalReadOnly;
+import org.fao.mozfis.core.service.TransactionalReadOnlyService;
 import org.fao.mozfis.forest.model.ProductEntity;
 import org.fao.mozfis.forest.repository.ProductRepository;
 import org.fao.mozfis.license.model.LicenseEntity;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
-@TransactionalReadOnly
+@TransactionalReadOnlyService
 public class ForestService {
 
 	@Autowired

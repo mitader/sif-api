@@ -7,10 +7,10 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.fao.mozfis.core.repository.AbstractRepository;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.operator.model.OperatorEntity_;
 import org.fao.mozfis.operator.util.OperatorFilter;
-import org.fao.mozfis.user.repository.AbstractRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.util.StringUtils;

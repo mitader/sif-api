@@ -1,4 +1,4 @@
-package org.fao.mozfis.user.repository;
+package org.fao.mozfis.core.repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

@@ -3,8 +3,8 @@ package org.fao.mozfis.license.service;
 import java.util.List;
 
 import org.fao.mozfis.core.entity.EntityState;
-import org.fao.mozfis.core.service.TransactionalModify;
-import org.fao.mozfis.core.service.TransactionalReadOnly;
+import org.fao.mozfis.core.service.TransactionalModifyOperation;
+import org.fao.mozfis.core.service.TransactionalReadOnlyService;
 import org.fao.mozfis.forest.model.ProductEntity;
 import org.fao.mozfis.forest.model.SpecieEntity;
 import org.fao.mozfis.forest.repository.ProductRepository;
@@ -22,7 +22,7 @@ import org.springframework.data.domain.Pageable;
  * 
  * @author Nelson Magalhães (nelsonmagas@gmail.com)
  */
-@TransactionalReadOnly
+@TransactionalReadOnlyService
 public class LicenseService {
 
 	@Autowired
@@ -50,7 +50,7 @@ public class LicenseService {
 	 * @return
 	 */
 	@Deprecated
-	@TransactionalModify
+	@TransactionalModifyOperation
 	public LicenseEntity createExistingLicense(LicenseEntity license) {
 
 		List<ProductEntity> products = license.getProducts();

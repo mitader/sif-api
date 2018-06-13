@@ -7,6 +7,7 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
+import org.fao.mozfis.core.repository.AbstractRepository;
 import org.fao.mozfis.user.model.UserEntity;
 import org.fao.mozfis.user.model.UserEntity_;
 import org.fao.mozfis.user.util.UserFilter;
