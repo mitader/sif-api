@@ -38,12 +38,12 @@ public class OperatorEntity extends BaseEntity {
 
 	private String comments;
 
-	@NotNull
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "locality_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private LocalityEntity locality;
 
+	@NotNull
 	@Column(name = "locality_id", nullable = false, insertable = false, updatable = false)
 	private Long localityId;
 
