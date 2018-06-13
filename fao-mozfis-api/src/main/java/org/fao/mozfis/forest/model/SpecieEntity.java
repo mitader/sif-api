@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
@@ -22,7 +23,7 @@ import org.fao.mozfis.forest.util.MeasurementUnit;
 @Table(name = "specie")
 public class SpecieEntity extends BaseEntity {
 
-	@NotNull
+	@NotBlank
 	@Column(name = "scientific_name")
 	private String scientificName;
 
@@ -44,6 +45,13 @@ public class SpecieEntity extends BaseEntity {
 	@NotNull
 	@Enumerated(EnumType.STRING)
 	private Classification classification;
+
+	public SpecieEntity() {
+	}
+
+	public SpecieEntity(Long id) {
+		setId(id);
+	}
 
 	public String getScientificName() {
 		return scientificName;

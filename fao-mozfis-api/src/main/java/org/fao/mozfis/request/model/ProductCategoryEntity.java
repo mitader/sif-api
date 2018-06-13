@@ -23,7 +23,6 @@ public class ProductCategoryEntity extends BaseEntity {
 
 	public ProductCategoryEntity(Long id) {
 		setId(id);
-		this.name = "auto";
 	}
 
 	public String getName() {

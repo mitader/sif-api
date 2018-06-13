@@ -11,7 +11,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 import org.fao.mozfis.core.filter.Views;
@@ -32,18 +34,18 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "request", uniqueConstraints = { @UniqueConstraint(columnNames = "process_number") })
 public class RequestEntity extends BaseEntity {
 
-	@NotNull
+	@NotBlank
 	@Column(name = "process_number")
 	private String processNumber;
 
-	@NotNull
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "operator_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private OperatorEntity operator;
 
+	@NotNull
 	@Column(name = "operator_id", nullable = false, insertable = false, updatable = false)
-	private Long operatorId;
+	private Long operatorId = -1L;
 
 	@NotNull
 	@JsonView(Views.Detail.class)
@@ -60,16 +62,16 @@ public class RequestEntity extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RequestStageEntity lastStage;
 
-	// Actually stageId cannot be null, ensure not null through RequestService
+	// Actually last stage can't be null, ensure not null through RequestService
 	@Column(name = "last_stage_id", nullable = true, insertable = false, updatable = false)
 	private Long lastStageId;
 
-	@NotNull
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "locality_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private LocalityEntity locality;
 
+	@NotNull
 	@Column(name = "locality_id", nullable = false, insertable = false, updatable = false)
 	private Long localityId;
 
@@ -79,8 +81,8 @@ public class RequestEntity extends BaseEntity {
 	@Column(name = "duration_year")
 	private BigDecimal durationInYears;
 
-	@NotNull
-	private int year;
+	@Positive
+	private int year = -1;
 
 	@Enumerated(EnumType.STRING)
 	private Regime regime;
@@ -100,6 +102,13 @@ public class RequestEntity extends BaseEntity {
 
 	// TODO: add geo coordinates
 
+	public RequestEntity() {
+	}
+
+	public RequestEntity(Long id) {
+		setId(id);
+	}
+
 	public OperatorEntity getOperator() {
 		return operator;
 	}
@@ -114,7 +123,8 @@ public class RequestEntity extends BaseEntity {
 
 	public void setOperator(OperatorEntity operator) {
 		this.operator = operator;
-		setOperatorId(operator != null ? operator.getId() : null);
+		if (operator != null)
+			setOperatorId(operator.getId());
 	}
 
 	public Long getOperatorId() {
@@ -131,7 +141,8 @@ public class RequestEntity extends BaseEntity {
 
 	public void setContract(ContractEntity contract) {
 		this.contract = contract;
-		setContractId(contract != null ? contract.getId() : null);
+		if (contract != null)
+			setContractId(contract.getId());
 	}
 
 	public Long getContractId() {
@@ -148,7 +159,8 @@ public class RequestEntity extends BaseEntity {
 
 	public void setLastStage(RequestStageEntity lastStage) {
 		this.lastStage = lastStage;
-		setLastStageId(lastStage != null ? lastStage.getId() : null);
+		if (lastStage != null)
+			setLastStageId(lastStage.getId());
 	}
 
 	public Long getLastStageId() {
@@ -165,7 +177,8 @@ public class RequestEntity extends BaseEntity {
 
 	public void setLocality(LocalityEntity locality) {
 		this.locality = locality;
-		setLocalityId(locality != null ? locality.getId() : null);
+		if (locality != null)
+			setLocalityId(locality.getId());
 	}
 
 	public Long getLocalityId() {
@@ -222,7 +235,8 @@ public class RequestEntity extends BaseEntity {
 
 	public void setProductType(ProductTypeEntity productType) {
 		this.productType = productType;
-		setProductTypeId(productType != null ? productType.getId() : null);
+		if (productType != null)
+			setProductTypeId(productType.getId());
 	}
 
 	public Long getProductTypeId() {

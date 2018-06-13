@@ -32,21 +32,21 @@ public class ProductEntity extends BaseEntity {
 	@Column(name = "authorized_quantity")
 	private BigDecimal authorizedQuantity;
 
-	@NotNull
 	@JsonBackReference
 	@JoinColumn(name = "license_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private LicenseEntity license;
 
-	@Column(name = "license_id", nullable = false, insertable = false, updatable = false)
-	private Long licenseId;
-
 	@NotNull
+	@Column(name = "license_id", nullable = false, insertable = false, updatable = false)
+	private Long licenseId = -1L;
+
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "specie_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private SpecieEntity specie;
 
+	@NotNull
 	@Column(name = "specie_id", nullable = false, insertable = false, updatable = false)
 	private Long specieId;
 

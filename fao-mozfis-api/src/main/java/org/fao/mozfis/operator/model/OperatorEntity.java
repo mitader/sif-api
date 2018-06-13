@@ -7,6 +7,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
@@ -24,10 +25,10 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "operators", uniqueConstraints = { @UniqueConstraint(columnNames = "nuit") })
 public class OperatorEntity extends BaseEntity {
 
-	@NotNull
+	@NotBlank
 	private String nuit;
 
-	@NotNull
+	@NotBlank
 	private String name;
 
 	private String identification;
@@ -45,7 +46,14 @@ public class OperatorEntity extends BaseEntity {
 
 	@NotNull
 	@Column(name = "locality_id", nullable = false, insertable = false, updatable = false)
-	private Long localityId;
+	private Long localityId = -1L;
+
+	public OperatorEntity() {
+	}
+
+	public OperatorEntity(Long id) {
+		setId(id);
+	}
 
 	public String getNuit() {
 		return nuit;
@@ -101,7 +109,8 @@ public class OperatorEntity extends BaseEntity {
 
 	public void setLocality(LocalityEntity locality) {
 		this.locality = locality;
-		setLocalityId(locality != null ? locality.getId() : null);
+		if (locality != null)
+			setLocalityId(locality.getId());
 	}
 
 	public Long getLocalityId() {

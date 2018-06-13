@@ -1,18 +1,18 @@
 package org.fao.mozfis.license.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.fao.mozfis.core.entity.EntityState;
-import org.fao.mozfis.core.service.TransactionalReadOnly;
 import org.fao.mozfis.core.service.TransactionalModify;
+import org.fao.mozfis.core.service.TransactionalReadOnly;
 import org.fao.mozfis.forest.model.ProductEntity;
+import org.fao.mozfis.forest.model.SpecieEntity;
 import org.fao.mozfis.forest.repository.ProductRepository;
 import org.fao.mozfis.license.model.LicenseEntity;
 import org.fao.mozfis.license.repository.LicenseRepository;
 import org.fao.mozfis.license.util.LicenseFilter;
 import org.fao.mozfis.operator.model.OperatorEntity;
-import org.fao.mozfis.operator.repository.OperatorRepository;
+import org.fao.mozfis.request.model.RequestEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,9 +27,6 @@ public class LicenseService {
 
 	@Autowired
 	private LicenseRepository licenseRepository;
-
-	@Autowired
-	private OperatorRepository operatorRepository;
 
 	@Autowired
 	private ProductRepository productRepository;
@@ -58,18 +55,17 @@ public class LicenseService {
 
 		List<ProductEntity> products = license.getProducts();
 
-		// operator
-		Optional<OperatorEntity> operator = operatorRepository.findByNuit(license.getOperator().getNuit());
-
 		// create the license
 		license.setStatus(EntityState.ACTIVE);
-		license.setOperator(operator.isPresent() ? operator.get() : null);
+		license.setOperator(new OperatorEntity(license.getOperatorId()));
+		license.setRequest(new RequestEntity(license.getRequestId()));
 		licenseRepository.save(license);
 
 		// add products
 		products.forEach(p -> {
 			p.setStatus(EntityState.ACTIVE);
 			p.setLicense(license);
+			p.setSpecie(new SpecieEntity(p.getSpecieId()));
 		});
 
 		productRepository.saveAll(products);

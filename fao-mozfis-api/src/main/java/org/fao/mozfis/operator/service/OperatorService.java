@@ -7,6 +7,7 @@ import org.fao.mozfis.core.service.TransactionalReadOnly;
 import org.fao.mozfis.operator.model.OperatorEntity;
 import org.fao.mozfis.operator.repository.OperatorRepository;
 import org.fao.mozfis.operator.util.OperatorFilter;
+import org.fao.mozfis.territory.model.LocalityEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -34,6 +35,7 @@ public class OperatorService {
 	}
 
 	public OperatorEntity createOperator(@Valid OperatorEntity operator) {
+		operator.setLocality(new LocalityEntity(operator.getLocalityId()));
 		operator.setStatus(EntityState.ACTIVE);
 		return operatorRepository.save(operator);
 	}

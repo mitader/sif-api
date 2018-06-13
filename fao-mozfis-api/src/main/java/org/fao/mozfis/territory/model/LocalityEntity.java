@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
@@ -22,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "locality")
 public class LocalityEntity extends BaseEntity {
 
-	@NotNull
+	@NotBlank
 	private String name;
 
 	@JsonView(Views.Detail.class)
@@ -32,15 +33,13 @@ public class LocalityEntity extends BaseEntity {
 
 	@NotNull
 	@Column(name = "administrative_post_id", nullable = false, insertable = false, updatable = false)
-	private Long administrativePostId;
+	private Long administrativePostId = -1L;
 
 	public LocalityEntity() {
 	}
 
 	public LocalityEntity(Long id) {
 		setId(id);
-		this.name = "";
-		this.administrativePostId = -1L;
 	}
 
 	public String getName() {

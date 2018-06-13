@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 
@@ -19,15 +21,19 @@ import org.fao.mozfis.core.entity.BaseEntity;
 @Table(name = "document")
 public class DocumentEntity extends BaseEntity {
 
+	@NotBlank
 	@Column(name = "file_name", length = 200, nullable = false)
 	private String fileName;
 
-	@Column(name = "file_name_uuid", length = 200, nullable = true)
+	@NotBlank
+	@Column(name = "file_name_uuid", length = 200, nullable = false)
 	private String fileNameUuid;
 
+	@NotBlank
 	@Column(name = "content_type", length = 200, nullable = false)
 	private String contentType;
 
+	@NotNull
 	@Lob
 	@Basic(fetch = FetchType.LAZY)
 	/**

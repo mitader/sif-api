@@ -6,7 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 
@@ -19,7 +19,7 @@ import org.fao.mozfis.core.entity.BaseEntity;
 @Table(name = "contract", uniqueConstraints = { @UniqueConstraint(columnNames = "contract_number") })
 public class ContractEntity extends BaseEntity {
 
-	@NotNull
+	@NotBlank
 	@Column(name = "contract_number")
 	private String contractNumber;
 

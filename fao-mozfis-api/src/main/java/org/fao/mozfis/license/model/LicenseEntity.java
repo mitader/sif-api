@@ -10,7 +10,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 import org.fao.mozfis.core.filter.Views;
@@ -30,32 +32,32 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Table(name = "license", uniqueConstraints = { @UniqueConstraint(columnNames = "license_number") })
 public class LicenseEntity extends BaseEntity {
 
-	@NotNull
+	@NotBlank
 	@Column(name = "license_number")
 	private String licenseNumber;
 
-	@NotNull
-	private int year;
+	@Positive
+	private int year = -1;
 
 	private String description;
 
-	@NotNull
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "request_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private RequestEntity request;
 
-	@Column(name = "request_id", nullable = false, insertable = false, updatable = false)
-	private Long requestId;
-
 	@NotNull
+	@Column(name = "request_id", nullable = false, insertable = false, updatable = false)
+	private Long requestId = -1L;
+
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "operator_id")
 	@ManyToOne(fetch = FetchType.LAZY)
 	private OperatorEntity operator;
 
+	@NotNull
 	@Column(name = "operator_id", nullable = false, insertable = false, updatable = false)
-	private Long operatorId;
+	private Long operatorId = -1L;
 
 	@JsonView(Views.Detail.class)
 	@JsonManagedReference
@@ -67,10 +69,6 @@ public class LicenseEntity extends BaseEntity {
 
 	public LicenseEntity(Long id) {
 		setId(id);
-		this.licenseNumber = "auto";
-		this.year = -1;
-		this.request = new RequestEntity();
-		this.operator = new OperatorEntity();
 	}
 
 	public List<ProductEntity> getProducts() {
