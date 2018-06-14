@@ -39,21 +39,7 @@ public class RequestRepositoryImpl extends AbstractRepository<RequestEntity, Req
 			restrictions.add(cb.equal(from.get(RequestEntity_.regime), Regime.valueOf(filter.getRegime())));
 		}
 
-		// TODO implement me!
-		// if (filter.getStage()!=null) {
-		// restrictions.add(cb.equal(from.get(RequestEntity_.stage), new
-		// RequestStageEntity(filter.getStage())));
-		// }
-
-		// if (!StringUtils.isEmpty(filter.getOperatorNuit())) {
-		// restrictions.add(cb.equal(from.get(RequestEntity_.operatorNuit),
-		// filter.getOperatorNuit()));
-		// }
-
-		// if (filter.getProvince() != null) {
-		// restrictions.add(cb.equal(from.get(RequestEntity_.province),
-		// filter.getRegime()));
-		// }
+		// TODO implement filter for stage, operator ad province
 
 		return restrictions.toArray(new Predicate[restrictions.size()]);
 	}

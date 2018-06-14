@@ -35,7 +35,7 @@ public class SpecieEntity extends BaseEntity {
 
 	@NotNull
 	@Column(name = "minimum_diameter")
-	private BigDecimal minumumDiameter;
+	private BigDecimal minimumDiameter = BigDecimal.ZERO;
 
 	@NotNull
 	@Enumerated(EnumType.STRING)
@@ -77,12 +77,12 @@ public class SpecieEntity extends BaseEntity {
 		this.localName = localName;
 	}
 
-	public BigDecimal getMinumumDiameter() {
-		return minumumDiameter;
+	public BigDecimal getMinimumDiameter() {
+		return minimumDiameter;
 	}
 
-	public void setMinumumDiameter(BigDecimal minumumDiameter) {
-		this.minumumDiameter = minumumDiameter;
+	public void setMinimumDiameter(BigDecimal minimumDiameter) {
+		this.minimumDiameter = minimumDiameter;
 	}
 
 	public MeasurementUnit getMeasurementUnit() {
