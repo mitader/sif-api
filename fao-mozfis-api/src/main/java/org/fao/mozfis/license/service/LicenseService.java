@@ -56,6 +56,7 @@ public class LicenseService {
 		List<ProductEntity> products = license.getProducts();
 
 		// create the license
+		license.setId(null);
 		license.setStatus(EntityState.ACTIVE);
 		license.setOperator(new OperatorEntity(license.getOperatorId()));
 		license.setRequest(new RequestEntity(license.getRequestId()));

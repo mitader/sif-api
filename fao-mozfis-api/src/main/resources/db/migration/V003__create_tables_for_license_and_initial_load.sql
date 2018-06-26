@@ -36,6 +36,7 @@ create table operators(
 	identification varchar(200),
 	email varchar(100) not null,
 	phone varchar(100) not null,
+	operator_type varchar(20) not null,
 	comments varchar(1000),
 	status integer(1) not null,
 	locality_id bigint(20) not null,
@@ -132,9 +133,9 @@ create table product(
 -------------------------------------------------------------------------------------------------------------------------
 -- Inserting initial DATA
 -------------------------------------------------------------------------------------------------------------------------
-insert into operators (id, nuit, name, identification, email, phone, locality_id, status) values (1, '023456789','John Doe', '023456789', 'johndoe@mail.com','+258023',1, 1);
-insert into operators (id, nuit, name, identification, email, phone, locality_id, status) values (2, '123456789','Mary Doe', '123456789', 'marydoe@mail.com','+258123',1, 1);
-insert into operators (id, nuit, name, identification, email, phone, locality_id, status) values (3, '123456780','Mary John', '123456780', 'maryjohn@mail.com','+258120',1, 1);
+insert into operators (id, nuit, name, identification, email, phone, operator_type, locality_id, status) values (1, '023456789','John Doe', '023456789', 'johndoe@mail.com','+258023','COLLECTIVE',1, 1);
+insert into operators (id, nuit, name, identification, email, phone, operator_type, locality_id, status) values (2, '123456789','Mary Doe', '123456789', 'marydoe@mail.com','+258123','SINGULAR',1, 1);
+insert into operators (id, nuit, name, identification, email, phone, operator_type, locality_id, status) values (3, '123456780','Mary John', '123456780', 'maryjohn@mail.com','+258120','ASSOCIATION',1, 1);
 
 insert into product_category (id, name, status) values (1, 'Madeireiro',1);
 insert into product_category (id, name, status) values (2, 'Não Madeireiro',1);

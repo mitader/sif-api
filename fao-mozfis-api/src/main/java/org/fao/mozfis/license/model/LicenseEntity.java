@@ -58,6 +58,8 @@ public class LicenseEntity extends BaseEntity {
 	@NotNull
 	@Column(name = "operator_id", nullable = false, insertable = false, updatable = false)
 	private Long operatorId = -1L;
+	
+	//TODO: add stage
 
 	@JsonView(Views.Detail.class)
 	@JsonManagedReference

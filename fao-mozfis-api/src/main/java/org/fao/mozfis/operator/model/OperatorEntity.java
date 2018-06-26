@@ -2,6 +2,8 @@ package org.fao.mozfis.operator.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,6 +14,7 @@ import javax.validation.constraints.NotNull;
 
 import org.fao.mozfis.core.entity.BaseEntity;
 import org.fao.mozfis.core.filter.Views;
+import org.fao.mozfis.operator.util.OperatorType;
 import org.fao.mozfis.territory.model.LocalityEntity;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -38,6 +41,11 @@ public class OperatorEntity extends BaseEntity {
 	private String phone;
 
 	private String comments;
+
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	@Column(name = "operator_type")
+	private OperatorType type = OperatorType.COLLECTIVE;
 
 	@JsonView(Views.Detail.class)
 	@JoinColumn(name = "locality_id")
@@ -101,6 +109,14 @@ public class OperatorEntity extends BaseEntity {
 
 	public void setComments(String comments) {
 		this.comments = comments;
+	}
+
+	public OperatorType getType() {
+		return type;
+	}
+
+	public void setType(OperatorType type) {
+		this.type = type;
 	}
 
 	public LocalityEntity getLocality() {
